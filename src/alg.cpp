@@ -61,15 +61,15 @@ std::string infx2pstfx(std::string inf) {
   std::string postfix;
     TStack<char, 100> operStack;
     for (auto& op : inf) {
-        int priority = getPriority(op);
-        if (priority == -1) {
+        int pr = getPriority(op);
+        if (pr == -1) {
             postfix += op;
         } else {
-            if (operStack.getTop() < priority || priority == OP || operStack.isEmpty()) {
+            if (operStack.getTop() < pr || pr == OP || operStack.isEmpty()) {
                 operStack.push(op);
             } else if (op == ')') {
                 char topOperator = operStack.getTop();
-                while (getPriority(topOperator) >= priority) {
+                while (getPriority(topOperator) >= pr) {
                     postfix += topOperator;
                     operStack.pop();
                     topOperator = operStack.getTop();
@@ -77,7 +77,7 @@ std::string infx2pstfx(std::string inf) {
                 operStack.pop();
             } else {
                 char topOperator = operStack.getTop();
-                while (getPriority(topOperator) >= priority) {
+                while (getPriority(topOperator) >= pr) {
                     postfix += topOperator;
                     operStack.pop();
                     topOperator = operStack.getTop();
