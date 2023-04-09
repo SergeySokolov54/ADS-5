@@ -99,26 +99,27 @@ std::string infx2pstfx(std::string inf) {
 
 int calculate(const int& a, const int& b, const char& oper) {
     switch (oper) {
-    case '+': return a + b;
-    case '-': return a - b;
-    case '*': return a * b;
-    case '/': return a / b;
-    default: break;
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+        default: break;
     }
+    return 0;
 }
 
 int eval(std::string pref) {
   TStack<int, 100> operandStack;
     std::string num = "";
-    for (size_t i = 0; i < postfix.size(); i++) {
-        if (getPriority(postfix[i]) == -1) {
-            if (postfix[i] == ' ') {
+    for (size_t i = 0; i < pref.size(); i++) {
+        if (getPriority(pref[i]) == -1) {
+            if (pref[i] == ' ') {
                 continue;
-            } else if (isdigit(postfix[i + 1])) {
-                num += postfix[i];
+            } else if (isdigit(pref[i + 1])) {
+                num += pref[i];
                 continue;
             } else {
-                num += postfix[i];
+                num += pref[i];
                 operandStack.push(atoi(num.c_str()));
                 num = "";
             }
@@ -127,7 +128,7 @@ int eval(std::string pref) {
             operandStack.pop();
             int a = operandStack.getTop();
             operandStack.pop();
-            operandStack.push(calculate(a, b, postfix[i]));
+            operandStack.push(calculate(a, b, pref[i]));
         }
     }
     return operandStack.getTop();
