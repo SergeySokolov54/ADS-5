@@ -4,7 +4,7 @@
 #include "tstack.h"
 
 enum OperatorPriority {
-    OPEN_PARENTHESIS = 0,
+    OP = 0,
     CLOSE_PARENTHESIS = 1,
     ADDITION = 2,
     SUBTRACTION = 2,
@@ -59,39 +59,36 @@ std::string addSpaces(const std::string& s) {
 
 std::string infx2pstfx(std::string inf) {
   std::string postfix;
-    TStack<char, 100> operatorStack;
+    TStack<char, 100> operStack;
     for (auto& op : inf) {
         int priority = getPriority(op);
         if (priority == -1) {
             postfix += op;
-        }
-        else {
-            if (operatorStack.getTop() < priority || priority == OPEN_PARENTHESIS || operatorStack.isEmpty()) {
-                operatorStack.push(op);
-            }
-            else if (op == ')') {
-                char topOperator = operatorStack.getTop();
+        } else {
+            if (operStack.getTop() < priority || priority == OP || operStack.isEmpty()) {
+                operStack.push(op);
+            } else if (op == ')') {
+                char topOperator = operStack.getTop();
                 while (getPriority(topOperator) >= priority) {
                     postfix += topOperator;
-                    operatorStack.pop();
-                    topOperator = operatorStack.getTop();
+                    operStack.pop();
+                    topOperator = operStack.getTop();
                 }
-                operatorStack.pop();
-            }
-            else {
-                char topOperator = operatorStack.getTop();
+                operStack.pop();
+            } else {
+                char topOperator = operStack.getTop();
                 while (getPriority(topOperator) >= priority) {
                     postfix += topOperator;
-                    operatorStack.pop();
-                    topOperator = operatorStack.getTop();
+                    operStack.pop();
+                    topOperator = operStack.getTop();
                 }
-                operatorStack.push(op);
+                operStack.push(op);
             }
         }
     }
-    while (!operatorStack.isEmpty()) {
-        postfix += operatorStack.getTop();
-        operatorStack.pop();
+    while (!operStack.isEmpty()) {
+        postfix += operStack.getTop();
+        operStack.pop();
     }
     postfix = addSpaces(postfix);
     return postfix;
