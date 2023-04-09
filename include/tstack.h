@@ -8,6 +8,7 @@ class TStack {
  private:
     T arr[100];
     int top_index;
+ 
  public:
     TStack() :top_index(-1) {}
     void push(T value) {
